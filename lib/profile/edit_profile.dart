@@ -1,21 +1,7 @@
-import 'dart:convert';
-
-
-import 'package:autotec/components/WBack.dart';
-import 'package:autotec/profile/profile.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:autotec/components/w_back.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import '../bloc/auth_bloc.dart';
-import 'package:autotec/repositories/image_storage_repository.dart';
-import 'package:autotec/models/user_data.dart';
-
-import '../components/WraisedButton.dart';
-import '../components/WtextField.dart';
-import '../components/WtextFieldDigit.dart';
-import '../components/pop_ups.dart';
+import '../components/w_raised_button.dart';
 import '../components/text_field.dart';
 import 'dart:io';
 
@@ -103,7 +89,7 @@ class _EditProfileState extends State<EditProfile> {
       width: size.width*0.4,
       decoration: BoxDecoration(
         border: Border.all(
-          color:Color(0xff2E9FB0),
+          color:const Color(0xff2E9FB0),
         ),
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -112,7 +98,7 @@ class _EditProfileState extends State<EditProfile> {
         child: Row(
           children: [
             Text(text,textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+              style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
             ),
           ],
         ),
@@ -124,7 +110,7 @@ class _EditProfileState extends State<EditProfile> {
     return Row (
       children: [
         SizedBox(width: size.width*0.05,),
-        Text(text,style: TextStyle(color: Color(0xff696969).withOpacity(0.7),)),
+        Text(text,style: TextStyle(color: const Color(0xff696969).withOpacity(0.7),)),
       ],
     );
   }
@@ -140,14 +126,14 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-            padding: EdgeInsets.all(35.0),
+            padding: const EdgeInsets.all(35.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                  children: const [
                     WidgetArrowBack()
                   ],
                 ),
@@ -161,7 +147,7 @@ class _EditProfileState extends State<EditProfile> {
                 //SizedBox(height: size.height*0.0001,),
                 CircleAvatar(
                     radius: 85,
-                    backgroundColor: Color(0xff2E9FB0),
+                    backgroundColor: const Color(0xff2E9FB0),
                     child: CircleAvatar(
                       backgroundColor:Colors.transparent ,
                       radius: 80,
@@ -169,7 +155,7 @@ class _EditProfileState extends State<EditProfile> {
                      imageChanged==null? NetworkImage(widget.image) :Image.file(File(imageFile!.path)).image,
 
                       child: IconButton(
-                        icon:Icon(Icons.edit),
+                        icon:const Icon(Icons.edit),
                         iconSize: 40,
                         onPressed: () { _showChoiceDialog(context); },),
                     )
@@ -200,7 +186,7 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(height: size.height*0.03,),
                 WidgetRaisedButton(press: () async {
 
-                }, text: 'Modifier',color: Color(0xff2E9FB0),textColor: Colors.white,),
+                }, text: 'Modifier',color: const Color(0xff2E9FB0),textColor: Colors.white,),
 
 
                /* RaisedButton(

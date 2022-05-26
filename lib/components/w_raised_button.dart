@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 
@@ -24,7 +26,7 @@ class WidgetRaisedButton extends StatelessWidget {
         hoverColor: Colors.black,
         shape:RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10)),
-        padding: EdgeInsets.symmetric(horizontal: 80, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 14),
 
         child: Text(
           text,

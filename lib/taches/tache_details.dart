@@ -1,8 +1,12 @@
-import 'package:autotec/components/WBack.dart';
-import 'package:autotec/components/WraisedButton.dart';
+// ignore_for_file: avoid_print, deprecated_member_use
+
+
 import 'package:autotec/taches/tache.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
+
+import '../components/w_Back.dart';
+import '../components/w_raised_button.dart';
 
 class TacheDetails extends StatefulWidget {
   final Tache tache;
@@ -17,17 +21,17 @@ class TacheDetails extends StatefulWidget {
 
 class _TacheDetailsState extends State<TacheDetails> {
   double _currentSliderValue = 30.0;
-  late bool en_panne;
+  late bool enPanne;
   bool _status(){
     if(widget.tache.etat=="en cours"){
       setState(() {
-        en_panne=false;
+        enPanne=false;
       });
       return true;
     }
     else{
       setState(() {
-        en_panne=true;
+        enPanne=true;
       });
       return false;
     }
@@ -36,47 +40,47 @@ class _TacheDetailsState extends State<TacheDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children:[
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  WidgetArrowBack(),
+                children: const [
+                   WidgetArrowBack(),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Text(widget.tache.objet,
-                style: TextStyle(
+                style: const TextStyle(
                 fontWeight: FontWeight.w800,
                 color:  Colors.black,
                 fontSize: 24  ,
               ),),
-              SizedBox(
+              const SizedBox(
                 height: 13,
               ),
               Text("${widget.tache.dateDebut.day}-${widget.tache.dateDebut.month}-${widget.tache.dateDebut.year}",
-                style: TextStyle(
+                style: const TextStyle(
                   color:  Colors.grey,
                   fontSize: 20  ,
                 ),),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
-              Text("Statut",
+              const Text("Statut",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color:  Colors.black,
                   fontSize: 22,
                 ),),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               Row(
@@ -87,36 +91,36 @@ class _TacheDetailsState extends State<TacheDetails> {
                     hoverColor: Colors.black,
                     shape:RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
 
-                    child: Text(
+                    child: const Text(
                       "En cours",
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     onPressed: (){},
                   ):RaisedButton(
-            color: Color(0xff2E9FB0),
+            color: const Color(0xff2E9FB0),
         hoverColor: Colors.black,
         shape:RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10)),
-        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
 
-        child: Text(
+        child: const Text(
           "En cours",
           style: TextStyle(color: Colors.white, fontSize: 16),
         ),
         onPressed: (){},
       ),
                  _status()? RaisedButton(
-                    color: Color(0xff2E9FB0),
+                    color: const Color(0xff2E9FB0),
                     hoverColor: Colors.black,
                     shape:RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
 
-                    child: Text(
+                    child: const Text(
                       "En panne",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style:  TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     onPressed: (){},
                   ):RaisedButton(
@@ -124,41 +128,41 @@ class _TacheDetailsState extends State<TacheDetails> {
                    hoverColor: Colors.black,
                    shape:RoundedRectangleBorder(
                        borderRadius: BorderRadius.circular(10)),
-                   padding: EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
 
-                   child: Text(
+                   child: const Text(
                      "En panne",
-                     style: TextStyle(color: Colors.white, fontSize: 16),
+                     style:  TextStyle(color: Colors.white, fontSize: 16),
                    ),
                    onPressed: (){},
                  ),
 
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
-              Text("Avancement",
+              const Text("Avancement",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color:  Colors.black,
                   fontSize: 22,
                 ),),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               SliderTheme(
                 data: SliderThemeData(
-                  activeTrackColor:Color(0xff2E9FB0) ,
+                  activeTrackColor:const Color(0xff2E9FB0) ,
                   inactiveTickMarkColor: Colors.grey,
-                  thumbColor: Color(0xff2E9FB0) ,
-                  thumbShape: RoundSliderThumbShape(
+                  thumbColor: const Color(0xff2E9FB0) ,
+                  thumbShape: const RoundSliderThumbShape(
                     enabledThumbRadius: 12
                   ),
-                  overlayColor: Color(0xff2E9FB0).withOpacity(0.4),
+                  overlayColor: const Color(0xff2E9FB0).withOpacity(0.4),
                   trackHeight: 8,
-                  valueIndicatorColor: Color(0xff2E9FB0),
-                  valueIndicatorTextStyle: TextStyle(
+                  valueIndicatorColor: const Color(0xff2E9FB0),
+                  valueIndicatorTextStyle: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold
                   )
@@ -176,30 +180,30 @@ class _TacheDetailsState extends State<TacheDetails> {
                   },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
-              Text("Description de la tache",
+              const Text("Description de la tache",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color:  Colors.black,
                   fontSize: 22,
                 ),),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Text(widget.tache.descriptif,
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
               WidgetRaisedButton(text: "Notifier l'ATC",
                   press: (){print(_currentSliderValue);},
-                  color: Color(0xff2E9FB0), textColor: Colors.white)
+                  color: const Color(0xff2E9FB0), textColor: Colors.white)
 
             ]
           ),

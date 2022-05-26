@@ -1,12 +1,13 @@
-import 'package:autotec/components/WBack.dart';
-import 'package:autotec/components/WcarSpecifications.dart';
-import 'package:autotec/components/WraisedButton.dart';
-import 'package:autotec/models/user_data.dart';
+// ignore_for_file: avoid_print
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import '../components/WcarInfo.dart';
-import 'Cars.dart';
+
+import '../components/w_back.dart';
+import '../components/w_carInfo.dart';
+import '../components/w_carSpecifications.dart';
+import 'cars.dart';
 
 class CarDetail extends StatefulWidget {
   final Car car ;
@@ -20,6 +21,7 @@ class _CarDetailState extends State<CarDetail> {
 
   var _carLocation;
   bool circular =true;
+  @override
   void initState(){
     super.initState();
     getCarFromFirestore();
@@ -50,22 +52,22 @@ class _CarDetailState extends State<CarDetail> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    WidgetArrowBack(),
-                    SizedBox(width: 10,),
-                    Text("${widget.car.marque}".toUpperCase(),style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),)
+                    const WidgetArrowBack(),
+                    const SizedBox(width: 10,),
+                    Text(widget.car.marque.toUpperCase(),style: const TextStyle(fontSize: 22,fontWeight: FontWeight.bold),)
                   ],
                 ),
               ),
-              WidgetCarInfo(carName: "${widget.car.modele}", carPrice:  "${widget.car.tarification} DA", carImage:  "${widget.car.imageVehicule}"),
+              WidgetCarInfo(carName: widget.car.modele, carPrice:  "${widget.car.tarification} DA", carImage:  widget.car.imageVehicule),
               SizedBox(height: size.height*0.03,),
-              Text("Specifications: ",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),),
+              const Text("Specifications: ",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),),
               SizedBox(height: size.height*0.02,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  circular?CircularProgressIndicator(): WidgetCarSpecifications(titre: "${_carLocation['batterie']}%",image: "assets/battery.png",),
-                  circular?CircularProgressIndicator():  WidgetCarSpecifications(titre: "${_carLocation['temperature']}°",image: "assets/temp.png",),
-                  circular?CircularProgressIndicator(): WidgetCarSpecifications(titre: "${_carLocation['kilometrage']}km/h",image: "assets/speed.png",),
+                  circular?const CircularProgressIndicator(): WidgetCarSpecifications(titre: "${_carLocation['batterie']}%",image: "assets/battery.png",),
+                  circular?const CircularProgressIndicator():  WidgetCarSpecifications(titre: "${_carLocation['temperature']}°",image: "assets/temp.png",),
+                  circular?const CircularProgressIndicator(): WidgetCarSpecifications(titre: "${_carLocation['kilometrage']}km/h",image: "assets/speed.png",),
                 ],
               ),
               SizedBox(height: size.height*0.03,),
@@ -74,16 +76,16 @@ class _CarDetailState extends State<CarDetail> {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.directions_car_rounded,color:Color(0xff2E9FB0)),
-                      SizedBox(width: 5,),
-                      Text('${widget.car.couleur}')
+                      const Icon(Icons.directions_car_rounded,color:Color(0xff2E9FB0)),
+                      const SizedBox(width: 5,),
+                      Text(widget.car.couleur)
                     ],
                   ),
                   Row(
                     children: [
                       Image.asset("assets/circulation.png"),
-                      SizedBox(width: 5,),
-                      Text('${widget.car.libelle}')
+                      const SizedBox(width: 5,),
+                      Text(widget.car.libelle)
                     ],
                   ),
 
@@ -105,10 +107,10 @@ class _CarDetailState extends State<CarDetail> {
                       ],
                     ),*/
                     SizedBox(height: size.height*0.03,),
-                    Text("Localisation : ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    const Text("Localisation : ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                     SizedBox(height: size.height*0.02,),
                     Row(
-                      children: [
+                      children: const [
                         Icon(Icons.location_on,color: Color(0xff2E9FB0),),
                         SizedBox(width: 10,),
                         Text("??????",style: TextStyle(fontSize: 20),),

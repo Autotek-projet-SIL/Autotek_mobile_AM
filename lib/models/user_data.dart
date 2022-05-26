@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:io';
@@ -90,17 +92,17 @@ class UserData {
   }
 }
 
-class userCredentials {
-  userCredentials._privateConstructor();
+class UserCredentials {
+  UserCredentials._privateConstructor();
 
-  static final userCredentials _instance = userCredentials
+  static final UserCredentials _instance = UserCredentials
       ._privateConstructor();
   static String? devicetoken;
   static String? uid;
   static String? token;
   static String? email;
 
-  factory userCredentials(){
+  factory UserCredentials(){
     return _instance;
   }
 
@@ -111,10 +113,11 @@ class userCredentials {
   static Future<void> refresh() async {
     try {
       token = (await FirebaseAuth.instance.currentUser!.getIdToken());
-      uid = (await FirebaseAuth.instance.currentUser?.uid);
-      email = (await FirebaseAuth.instance.currentUser?.email);
+      uid = ( FirebaseAuth.instance.currentUser?.uid);
+      email = ( FirebaseAuth.instance.currentUser?.email);
     } on FirebaseAuthException catch (e) {
       print('auth exception!\n');
+      print(e);
     }
   }
 }

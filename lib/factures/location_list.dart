@@ -1,14 +1,12 @@
-import 'dart:convert';
+// ignore_for_file: avoid_print
 
-import 'package:autotec/components/WviewTrip.dart';
+import 'dart:convert';
+import 'package:autotec/components/w_view_trip.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-import '../components/WBack.dart';
-import '/components/WviewCar.dart';
+import '../components/w_back.dart';
 import 'package:autotec/models/user_data.dart';
-
-import 'factureDetails.dart';
+import 'facture_details.dart';
 import 'models/location.dart';
 
 class LocationList extends StatefulWidget {
@@ -35,9 +33,9 @@ class _LocationListState extends State<LocationList> {
   late String modele;
 
   Future<List<Location>> _getLocations() async{
-    var Url = Uri.https("autotek-server.herokuapp.com","/gestionlocations/get_locations_termines_by_locataire/${userCredentials.uid!}");
+    var url = Uri.https("autotek-server.herokuapp.com","/gestionlocations/get_locations_termines_by_locataire/${UserCredentials.uid!}");
     // print (Url.toString());
-    final response = await http.get(Url, headers: {'token':userCredentials.token!,'id_sender':userCredentials.uid!});
+    final response = await http.get(url, headers: {'token':UserCredentials.token!,'id_sender':UserCredentials.uid!});
     List<Location> locations=[];
 
     if (response.statusCode == 200) {
@@ -71,7 +69,7 @@ class _LocationListState extends State<LocationList> {
               height: size.height*0.04,
             ),
             Row(
-              children: [
+              children: const [
                 WidgetArrowBack(),
                 SizedBox(width: 12,),
                 Text(
@@ -99,16 +97,16 @@ class _LocationListState extends State<LocationList> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                                 onTap: (){
-                                  numeroChassis="${data![index].numeroChassis}";
-                                  heureDebut=data![index].heureDebut;
-                                  heureFin=data![index].heureFin;
-                                  region="${data![index].region}";
-                                  dateDebut=data![index].dateDebut;
-                                  idFacture=data![index].idFacture;
-                                  montant =data![index].montant;
-                                  imageVehicule =data![index].imageVehicule;
-                                  marque=data![index].marque;
-                                  modele=data![index].modele;
+                                  numeroChassis=data![index].numeroChassis;
+                                  heureDebut=data[index].heureDebut;
+                                  heureFin=data[index].heureFin;
+                                  region=data[index].region;
+                                  dateDebut=data[index].dateDebut;
+                                  idFacture=data[index].idFacture;
+                                  montant =data[index].montant;
+                                  imageVehicule =data[index].imageVehicule;
+                                  marque=data[index].marque;
+                                  modele=data[index].modele;
                                   nom=widget.nomLocataire;
 
                                   Navigator.push(
@@ -118,17 +116,17 @@ class _LocationListState extends State<LocationList> {
                                     ),
                                   );
                                 },
-                                child: WidgetViewTrip(carName: "${data![index].modele}", carPrice: "${data![index].montant} DA", start: "${data![index].dateDebut.day}-${data![index].dateDebut.month}-${data![index].dateDebut.year} à ${data![index].heureDebut}", end: "${data![index].dateDebut.day}-${data![index].dateDebut.month}-${data![index].dateDebut.year} à ${data![index].heureFin}", press: () {
-                                  numeroChassis="${data![index].numeroChassis}";
-                                  heureDebut=data![index].heureDebut;
-                                  heureFin=data![index].heureFin;
-                                  region="${data![index].region}";
-                                  dateDebut=data![index].dateDebut;
-                                  idFacture=data![index].idFacture;
-                                  montant =data![index].montant;
-                                  imageVehicule =data![index].imageVehicule;
-                                  marque=data![index].marque;
-                                  modele=data![index].modele;
+                                child: WidgetViewTrip(carName: data![index].modele, carPrice: "${data[index].montant} DA", start: "${data[index].dateDebut.day}-${data[index].dateDebut.month}-${data[index].dateDebut.year} à ${data[index].heureDebut}", end: "${data[index].dateDebut.day}-${data[index].dateDebut.month}-${data[index].dateDebut.year} à ${data[index].heureFin}", press: () {
+                                  numeroChassis=data[index].numeroChassis;
+                                  heureDebut=data[index].heureDebut;
+                                  heureFin=data[index].heureFin;
+                                  region=data[index].region;
+                                  dateDebut=data[index].dateDebut;
+                                  idFacture=data[index].idFacture;
+                                  montant =data[index].montant;
+                                  imageVehicule =data[index].imageVehicule;
+                                  marque=data[index].marque;
+                                  modele=data[index].modele;
                                   nom=widget.nomLocataire;
 
                                   Navigator.push(
@@ -142,7 +140,7 @@ class _LocationListState extends State<LocationList> {
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   },
                 ),
               ),

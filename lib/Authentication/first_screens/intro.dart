@@ -50,7 +50,7 @@ class _IntroState extends State<Intro> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Home()),
+                    MaterialPageRoute(builder: (context) => const Home()),
                   );
                 },
                 color: const Color.fromRGBO(239, 242, 239, 1),

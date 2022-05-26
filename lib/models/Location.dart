@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../car_rental/Cars.dart';
+import '../car_rental/cars.dart';
 
-class carLocation{
+class CarLocation{
 
-  carLocation._privateConstructor();
+  CarLocation._privateConstructor();
 
   // the info related to the location
   int? id;
@@ -19,21 +19,21 @@ class carLocation{
                // trajet (suivi du trajet)
               // payement
   String? region;
-  String? numero_chassis;
+  String? numeroChassis;
 
-  String? point_depart;
-  double? latitude_depart;
-  double? longitude_depart;
+  String? pointDepart;
+  double? latitudeDepart;
+  double? longitudeDepart;
 
-  String? point_arrive;
-  double? latitude_arrive;
-  double? longitude_arrive;
+  String? pointArrive;
+  double? latitudeArrive;
+  double? longitudeArrive;
 
   Car? car;
 
-  static final carLocation _instance = carLocation._privateConstructor();
+  static final CarLocation _instance = CarLocation._privateConstructor();
 
-  factory carLocation(){
+  factory CarLocation(){
     return _instance;
   }
 }

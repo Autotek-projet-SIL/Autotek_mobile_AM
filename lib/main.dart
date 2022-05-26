@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,7 +14,7 @@ import 'package:autotec/Authentication/first_screens/home.dart';
 import 'package:autotec/models/user_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'car_rental/CarsList.dart';
+import 'car_rental/cars_list.dart';
 
 
 var userCred ;
@@ -33,10 +35,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = await prefs.getInt("initScreen");
+  initScreen = prefs.getInt("initScreen");
   await prefs.setInt("initScreen", 1);
 
-  userCred = userCredentials();
+  userCred = UserCredentials();
   await Firebase.initializeApp();
 
   //Get permission for notifications
@@ -53,7 +55,7 @@ Future<void> main() async {
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   //Get Device token
-  userCredentials.setDeviceToken();
+  UserCredentials.setDeviceToken();
 
   runApp(const MyApp());
 
@@ -79,7 +81,7 @@ class MyApp extends StatelessWidget {
                 if (snapshot.hasData) {
                   return  CarsList();
                 }else{
-                  return Home();
+                  return const Home();
                 }
 
               }),

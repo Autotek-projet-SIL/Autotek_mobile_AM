@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
               width: 350,
             ),
             SizedBox(height: size.height * 0.01),
-            Text('Agent de maintenace',style: TextStyle(fontWeight: FontWeight.bold),),
+            const Text('Agent de maintenace',style: TextStyle(fontWeight: FontWeight.bold),),
             SizedBox(height: size.height * 0.08),
             RaisedButton(
               color: const Color.fromRGBO(27, 146, 164, 0.7),

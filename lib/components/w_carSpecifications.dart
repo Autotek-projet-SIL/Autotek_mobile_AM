@@ -21,9 +21,9 @@ class WidgetCarSpecifications extends StatelessWidget {
             width: 85,
             decoration:  BoxDecoration(
               border: Border.all(
-                color: Color(0xff2E9FB0),
+                color: const Color(0xff2E9FB0),
               ),
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(15),
                 topLeft: Radius.circular(15),
                 bottomRight: Radius.circular(15),
@@ -40,7 +40,7 @@ class WidgetCarSpecifications extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(image,width: 45,),
-                      Text(titre,style: TextStyle(fontSize: 15),)
+                      Text(titre,style: const TextStyle(fontSize: 15),)
                     ],
                   ),
                 ),

@@ -1,8 +1,5 @@
 import 'dart:convert';
-
-import 'package:autotec/car_rental/Car_details.dart';
-import 'package:autotec/components/WBack.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:autotec/components/w_back.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -10,8 +7,7 @@ import '../bloc/auth_bloc.dart';
 
 import 'package:autotec/models/user_data.dart';
 
-import '../car_rental/CarsList.dart';
-import '../factures/locationList.dart';
+import '../car_rental/cars_list.dart';
 import '../taches/taches_list.dart';
 import 'edit_profile.dart';
 
@@ -40,10 +36,10 @@ class _ProfileState extends State<Profile> {
 
     void getUser() async{
     var res=await http.get(
-        Uri.https('autotek-server.herokuapp.com','/authentification_mobile/am_connexion/${userCredentials.email}'),
+        Uri.https('autotek-server.herokuapp.com','/authentification_mobile/am_connexion/${UserCredentials.email}'),
         headers: <String, String>{
-          "token": "${userCredentials.token}",
-          "id_sender": "${userCredentials.uid}"
+          "token": "${UserCredentials.token}",
+          "id_sender": "${UserCredentials.uid}"
           ,
         },
     );
@@ -65,7 +61,7 @@ class _ProfileState extends State<Profile> {
       width: size.width*0.4,
       decoration: BoxDecoration(
         border: Border.all(
-          color:Color(0xff2E9FB0),
+          color:const Color(0xff2E9FB0),
         ),
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -74,7 +70,7 @@ class _ProfileState extends State<Profile> {
         child: Row(
           children: [
             Text(text,textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ],
         ),
@@ -86,7 +82,7 @@ class _ProfileState extends State<Profile> {
     return Row (
       children: [
         SizedBox(width: size.width*0.05,),
-        Text(text,style: TextStyle(color: Color(0xff696969).withOpacity(0.7),)),
+        Text(text,style: TextStyle(color: const Color(0xff696969).withOpacity(0.7),)),
       ],
     );
   }
@@ -106,13 +102,13 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
               child: IconButton(
                 onPressed: ()async{
-                  await userCredentials.refresh();
+                  await UserCredentials.refresh();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CarsList()),
                   );
                 },
-                icon: Icon(Icons.directions_car, color: Colors.grey,size: 30),
+                icon: const Icon(Icons.directions_car, color: Colors.grey,size: 30),
                 tooltip: 'rent a car',
               ),
             ),
@@ -120,13 +116,13 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
               child: IconButton(
                 onPressed: ()async{
-                  await userCredentials.refresh();
+                  await UserCredentials.refresh();
                  Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => TachesList()),
+                    MaterialPageRoute(builder: (context) => const TachesList()),
                   );
                 },
-                icon: Icon(Icons.library_books_sharp, color: Colors.grey,size: 30),
+                icon: const Icon(Icons.library_books_sharp, color: Colors.grey,size: 30),
                 tooltip: 'rent a car',
               ),
             ),
@@ -135,16 +131,16 @@ class _ProfileState extends State<Profile> {
               child: IconButton(
                 onPressed: () async {
                   //TODO navigate to profil
-                  await userCredentials.refresh();
+                  await UserCredentials.refresh();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) =>
-                        Profile()
+                        const Profile()
                     ),
                   );
 
                 },
-                icon: Icon(Icons.person_outlined, color: Color(0xff2E9FB0),size: 30),
+                icon: const Icon(Icons.person_outlined, color: Color(0xff2E9FB0),size: 30),
                 tooltip: 'open profil',
               ),
             ),
@@ -155,9 +151,9 @@ class _ProfileState extends State<Profile> {
         ),
         notchMargin: 5,
       ),
-      body: circular?Center(child: CircularProgressIndicator()): SingleChildScrollView(
+      body: circular?const Center(child: CircularProgressIndicator()): SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(25.0),
+          padding: const EdgeInsets.all(25.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -166,7 +162,7 @@ class _ProfileState extends State<Profile> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
+                    children: const [
                       WidgetArrowBack(),
                       SizedBox(width: 20,),
                       Text(
@@ -194,20 +190,20 @@ class _ProfileState extends State<Profile> {
                           EditProfile(image: image, nom: name, prenom: prenom, numTlph: numero, mdp: mdp)
                       ),
                     );
-                  }, icon: Icon(Icons.edit ,size: 30,), hoverColor: Color(0xff2E9FB0),),
+                  }, icon: const Icon(Icons.edit ,size: 30,), hoverColor: const Color(0xff2E9FB0),),
 
                 ],
               ),
              /* RaisedButton(onPressed: (){
-                //print(" token : ${userCredentials.token}");
-                //print(" id : ${userCredentials.uid}");
+                //print(" token : ${UserCredentials.token}");
+                //print(" id : ${UserCredentials.uid}");
                print("${userProfile[0]}");
               },
               child: Text("click me"),)*/
               SizedBox(height: size.height*0.01,),
               CircleAvatar(
                   radius: 85,
-                  backgroundColor: Color(0xff2E9FB0),
+                  backgroundColor: const Color(0xff2E9FB0),
                   child: CircleAvatar(
                     backgroundColor:Colors.transparent ,
                     radius: 80,
@@ -243,7 +239,7 @@ class _ProfileState extends State<Profile> {
                   height: 50,
                   width: size.width*0.4,
                   decoration: BoxDecoration(
-                    color: Color(0xff2E9FB0),
+                    color: const Color(0xff2E9FB0),
 
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -253,14 +249,14 @@ class _ProfileState extends State<Profile> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
-                          children: [
+                          children: const [
                            // IconButton(onPressed: (){}, icon: Image.asset("assets/hello.png",width: 50,)),
-                            Text("Deconnexion",textAlign: TextAlign.center,
+                          Text("Deconnexion",textAlign: TextAlign.center,
                               style: TextStyle(fontWeight:FontWeight.bold,fontSize: 16,color: Colors.white),
                             ),
                           ],
                         ),
-                        IconButton(onPressed: (){}, icon: Icon(Icons.exit_to_app,color: Colors.white,))
+                        IconButton(onPressed: (){}, icon: const Icon(Icons.exit_to_app,color: Colors.white,))
                       ],
                     ),
                   ),
@@ -269,10 +265,10 @@ class _ProfileState extends State<Profile> {
             /*  RaisedButton(
                 child: Text('click me'),
                 onPressed: (){
-                  print ("token : ${userCredentials.token}");
-                   print("id : ${userCredentials.uid}");
-                  //print ("token : ${userCredentials.token}");
-                 // print("id : ${userCredentials.uid}");
+                  print ("token : ${UserCredentials.token}");
+                   print("id : ${UserCredentials.uid}");
+                  //print ("token : ${UserCredentials.token}");
+                 // print("id : ${UserCredentials.uid}");
 
                 },
               )*/

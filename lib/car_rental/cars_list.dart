@@ -1,19 +1,19 @@
+// ignore_for_file: deprecated_member_use, avoid_print
+
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../profile/profile.dart';
 import '../taches/taches_list.dart';
-import 'Cars.dart';
+import 'cars.dart';
 import '/components/WviewCar.dart';
 import 'package:autotec/models/user_data.dart';
 
 
 class CarsList extends StatefulWidget {
 
-   CarsList({Key? key}) : super(key: key);
+   const CarsList({Key? key}) : super(key: key);
 
   @override
   State<CarsList> createState() => _CarsListState();
@@ -32,7 +32,7 @@ class _CarsListState extends State<CarsList> {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Row(
-                children: [
+                children: const [
                   SizedBox(width: 20,),
                   Text(
                     'Mes Vehicules',
@@ -47,7 +47,7 @@ class _CarsListState extends State<CarsList> {
             ),
 
 
-            Center(
+            const Center(
                   child: CarListView(),
             ),
 
@@ -66,13 +66,13 @@ class _CarsListState extends State<CarsList> {
               padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
               child: IconButton(
                 onPressed: ()async{
-                  await userCredentials.refresh();
+                  await UserCredentials.refresh();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CarsList()),
+                    MaterialPageRoute(builder: (context) => const CarsList()),
                   );
                 },
-                icon: Icon(Icons.directions_car, color: Color(0xff2E9FB0),size: 30),
+                icon: const Icon(Icons.directions_car, color: Color(0xff2E9FB0),size: 30),
                 tooltip: 'rent a car',
               ),
             ),
@@ -80,13 +80,13 @@ class _CarsListState extends State<CarsList> {
               padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
               child: IconButton(
                 onPressed: ()async{
-                  await userCredentials.refresh();
+                  await UserCredentials.refresh();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => TachesList()),
+                    MaterialPageRoute(builder: (context) => const TachesList()),
                   );
                 },
-                icon: Icon(Icons.library_books_sharp, color: Colors.grey,size: 30),
+                icon: const Icon(Icons.library_books_sharp, color: Colors.grey,size: 30),
                 tooltip: 'rent a car',
               ),
             ),
@@ -95,16 +95,16 @@ class _CarsListState extends State<CarsList> {
               child: IconButton(
                 onPressed: () async {
                   //TODO navigate to profil
-                  await userCredentials.refresh();
+                  await UserCredentials.refresh();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) =>
-                        Profile()
+                        const Profile()
                     ),
                   );
 
                 },
-                icon: Icon(Icons.person_outlined, color: Colors.grey,size: 30),
+                icon: const Icon(Icons.person_outlined, color: Colors.grey,size: 30),
                 tooltip: 'open profil',
               ),
             ),
@@ -121,7 +121,7 @@ class _CarsListState extends State<CarsList> {
 
 class CarListView extends StatelessWidget{
 
-  CarListView({Key? key}) : super(key: key);
+  const CarListView({Key? key}) : super(key: key);
 
 
   @override
@@ -134,11 +134,11 @@ class CarListView extends StatelessWidget{
           return SizedBox(
               height: MediaQuery.of(context).size.height*0.8,
               width: 350,
-              child: _CarsListView(data));
+              child: _carsListView(data));
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        return  CircularProgressIndicator();
+        return  const CircularProgressIndicator();
       },
     );
   }
@@ -156,7 +156,7 @@ class CarListView extends StatelessWidget{
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(child:
+                      const Expanded(child:
                       Text("aucune voiture n'est disponible en ce moment, veuillez réessayer plus tard")
                       ),
                       Center(
@@ -165,7 +165,7 @@ class CarListView extends StatelessWidget{
                               //TODO send a post with rejected demande de location
                               Navigator.pop(context);
                             },
-                            child: Text("ok")),
+                            child: const Text("ok")),
                       )
                     ],
                   ),
@@ -177,13 +177,13 @@ class CarListView extends StatelessWidget{
 
   Future<List<Car>> _fetchCars(BuildContext context) async {
 
-    var Url = Uri.http("autotek-server.herokuapp.com","/flotte/vehicule_am/${userCredentials.uid}");
-    print (Url.toString());
-    final response = await http.get(Url, headers: {'token':userCredentials.token!,'id_sender':userCredentials.uid!});
+    var url = Uri.http("autotek-server.herokuapp.com","/flotte/vehicule_am/${UserCredentials.uid}");
+    print (url.toString());
+    final response = await http.get(url, headers: {'token':UserCredentials.token!,'id_sender':UserCredentials.uid!});
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
-      List<Car> list =  jsonResponse.map((json) => new Car.fromJson(json)).toList();
+      List<Car> list =  jsonResponse.map((json) =>  Car.fromJson(json)).toList();
       //recuperer ceux dispo et batterie > 20
 
       if(list.isEmpty){
@@ -198,7 +198,7 @@ class CarListView extends StatelessWidget{
     }
   }
 
-  ListView _CarsListView(data) {
+  ListView _carsListView(data) {
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {

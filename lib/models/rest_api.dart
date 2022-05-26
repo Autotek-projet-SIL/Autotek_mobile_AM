@@ -1,6 +1,6 @@
 
 import 'dart:convert';
-import 'package:autotec/models/Location.dart';
+import 'package:autotec/models/location.dart';
 import 'package:http/http.dart' as http;
 import 'user_data.dart';
 import 'package:intl/intl.dart';
@@ -69,7 +69,7 @@ class Api {
 
   static Future<http.Response> postLocation(String status) async {
 
-    carLocation _location = carLocation();
+    CarLocation _location = CarLocation();
     return await http.post(
       Uri.parse('https://autotek-server.herokuapp.com/gestionlocations/ajouter_location/'),
       headers: <String, String>{
@@ -77,18 +77,18 @@ class Api {
       },
       body: jsonEncode(<String, String>{
 
-        "id_sender": userCredentials.uid!,
-        "token":userCredentials.token!,
+        "id_sender": UserCredentials.uid!,
+        "token":UserCredentials.token!,
         'date_debut':formattedDateNow(),
 
         'status_demande_location':status,
-        'id_locataire':userCredentials.uid!,
+        'id_locataire':UserCredentials.uid!,
         'region': _location.region!,
-        'numero_chassis':_location.numero_chassis!, //TODO notice them that it can be null in case demande rejetee
+        'numero_chassis':_location.numeroChassis!, //TODO notice them that it can be null in case demande rejetee
         'id_trajet':"1", //TODO no idea what's this and how th get it
         'en_cours': "t", // t or f
-        'point_depart':_location.point_depart!,
-        'point_arrive':_location.point_arrive!,
+        'point_depart':_location.pointDepart!,
+        'point_arrive':_location.pointArrive!,
 
         //TODO add les positions de depart et d'arrive
       }),

@@ -47,7 +47,7 @@ class WidgetTache extends StatelessWidget {
             ),
             child: Stack(
                 children:  [
-                  Positioned(
+                  const Positioned(
                       top: 10,
                       bottom: 10,
                       left: 20.0,
@@ -62,7 +62,7 @@ class WidgetTache extends StatelessWidget {
                       children: [
                         Text(tache.objet,
                           maxLines: 2,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
@@ -71,7 +71,7 @@ class WidgetTache extends StatelessWidget {
 
                         Text("${tache.dateDebut.day}-${tache.dateDebut.month}-${tache.dateDebut.year}",
                           maxLines: 2,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.grey,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,
@@ -87,7 +87,7 @@ class WidgetTache extends StatelessWidget {
                       children:  [
                         Text(tache.etat,
                           maxLines: 2,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.bold,

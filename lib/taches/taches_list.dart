@@ -1,21 +1,20 @@
+// ignore_for_file: deprecated_member_use, avoid_print
+
 import 'dart:convert';
 
-import 'package:autotec/car_rental/CarsList.dart';
-import 'package:autotec/components/WTache.dart';
+import 'package:autotec/car_rental/cars_list.dart';
+import 'package:autotec/components/w_tache.dart';
 import 'package:autotec/taches/tache.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../components/WBack.dart';
+import '../components/w_back.dart';
 import '../profile/profile.dart';
-import '../taches/taches_list.dart';
 import 'package:autotec/models/user_data.dart';
 
 
 class TachesList extends StatefulWidget {
 
-  TachesList({Key? key}) : super(key: key);
+  const TachesList({Key? key}) : super(key: key);
 
   @override
   State<TachesList> createState() => _TachesListState();
@@ -35,7 +34,7 @@ class _TachesListState extends State<TachesList> {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Row(
-                children: [
+                children: const [
                   WidgetArrowBack(),
                   SizedBox(width: 20,),
                   Text(
@@ -50,7 +49,7 @@ class _TachesListState extends State<TachesList> {
               ),
             ),
 
-            Center(
+            const Center(
               child: TacheListView(),
             ),
 
@@ -69,13 +68,13 @@ class _TachesListState extends State<TachesList> {
               padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
               child: IconButton(
                 onPressed: ()async{
-                  await userCredentials.refresh();
+                  await UserCredentials.refresh();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CarsList()),
                   );
                 },
-                icon: Icon(Icons.directions_car, color: Colors.grey,size: 30),
+                icon: const Icon(Icons.directions_car, color: Colors.grey,size: 30),
                 tooltip: 'rent a car',
               ),
             ),
@@ -83,13 +82,13 @@ class _TachesListState extends State<TachesList> {
               padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
               child: IconButton(
                 onPressed: ()async{
-                  await userCredentials.refresh();
+                  await UserCredentials.refresh();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => TachesList()),
+                    MaterialPageRoute(builder: (context) => const TachesList()),
                   );
                 },
-                icon: Icon(Icons.library_books_sharp, color: Color(0xff2E9FB0),size: 30),
+                icon: const Icon(Icons.library_books_sharp, color: Color(0xff2E9FB0),size: 30),
                 tooltip: 'rent a car',
               ),
             ),
@@ -98,16 +97,16 @@ class _TachesListState extends State<TachesList> {
               child: IconButton(
                 onPressed: () async {
                   //TODO navigate to profil
-                  await userCredentials.refresh();
+                  await UserCredentials.refresh();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) =>
-                        Profile()
+                        const Profile()
                     ),
                   );
 
                 },
-                icon: Icon(Icons.person_outlined, color: Colors.grey,size: 30),
+                icon: const Icon(Icons.person_outlined, color: Colors.grey,size: 30),
                 tooltip: 'open profil',
               ),
             ),
@@ -124,7 +123,7 @@ class _TachesListState extends State<TachesList> {
 
 class TacheListView extends StatelessWidget{
 
-  TacheListView({Key? key}) : super(key: key);
+  const TacheListView({Key? key}) : super(key: key);
 
 
   @override
@@ -137,11 +136,11 @@ class TacheListView extends StatelessWidget{
           return SizedBox(
               height: MediaQuery.of(context).size.height*0.8,
               width: 350,
-              child: _TachesListView(data));
+              child: _tachesListView(data));
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        return  CircularProgressIndicator();
+        return  const CircularProgressIndicator();
       },
     );
   }
@@ -159,7 +158,7 @@ class TacheListView extends StatelessWidget{
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(child:
+                      const Expanded(child:
                       Text("aucune voiture n'est disponible en ce moment, veuillez réessayer plus tard")
                       ),
                       Center(
@@ -168,7 +167,7 @@ class TacheListView extends StatelessWidget{
                               //TODO send a post with rejected demande de location
                               Navigator.pop(context);
                             },
-                            child: Text("ok")),
+                            child: const Text("ok")),
                       )
                     ],
                   ),
@@ -180,13 +179,13 @@ class TacheListView extends StatelessWidget{
 
   Future<List<Tache>> _fetchTaches(BuildContext context) async {
 
-    var Url = Uri.http("autotek-server.herokuapp.com","/authentification_mobile/am_connexion/${userCredentials.email}");
-    print (Url.toString());
-    final response = await http.get(Url, headers: {'token':userCredentials.token!,'id_sender':userCredentials.uid!});
+    var url = Uri.http("autotek-server.herokuapp.com","/authentification_mobile/am_connexion/${UserCredentials.email}");
+    print (url.toString());
+    final response = await http.get(url, headers: {'token':UserCredentials.token!,'id_sender':UserCredentials.uid!});
 
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
-      List<Tache> list =  jsonResponse.map((json) => new Tache.fromJson(json)).toList();
+      List<Tache> list =  jsonResponse.map((json) => Tache.fromJson(json)).toList();
       //recuperer ceux dispo et batterie > 20
 
       if(list.isEmpty){
@@ -201,7 +200,7 @@ class TacheListView extends StatelessWidget{
     }
   }
 
-  ListView _TachesListView(data) {
+  ListView _tachesListView(data) {
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {

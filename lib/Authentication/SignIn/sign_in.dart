@@ -1,5 +1,5 @@
 // ignore_for_file: deprecated_member_use
-import 'package:autotec/car_rental/CarsList.dart';
+import 'package:autotec/car_rental/cars_list.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,10 +34,10 @@ class _SignInState extends State<SignIn> {
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) async {
           if (state is Authenticated) {
-            await userCredentials.refresh();
+            await UserCredentials.refresh();
             // Navigating to the dashboard screen if the user is authenticated
              Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => CarsList()));
+                MaterialPageRoute(builder: (context) => const CarsList()));
 
 
           }
