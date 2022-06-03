@@ -28,32 +28,34 @@ class _TachesListState extends State<TachesList> {
 
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
 
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Row(
-                children: const [
-                  WidgetArrowBack(),
-                  SizedBox(width: 20,),
-                  Text(
-                    'Mes Taches',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color:  Color(0xff2E9FB0),
-                      fontSize: 24  ,
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Row(
+                  children: const [
+                    WidgetArrowBack(),
+                    SizedBox(width: 20,),
+                    Text(
+                      'Mes Taches',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        color:  Color(0xff2E9FB0),
+                        fontSize: 24  ,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
 
-            const Center(
-              child: TacheListView(),
-            ),
+              const Center(
+                child: TacheListView(),
+              ),
 
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -65,7 +67,7 @@ class _TachesListState extends State<TachesList> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
+              padding: const EdgeInsets.fromLTRB(40.0, 5, 15, 5),
               child: IconButton(
                 onPressed: ()async{
                   await UserCredentials.refresh();
@@ -79,7 +81,7 @@ class _TachesListState extends State<TachesList> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
+              padding: const EdgeInsets.fromLTRB(40.0, 5, 15, 5),
               child: IconButton(
                 onPressed: ()async{
                   await UserCredentials.refresh();
@@ -93,7 +95,7 @@ class _TachesListState extends State<TachesList> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(50.0, 5, 50, 5),
+              padding: const EdgeInsets.fromLTRB(40.0, 5, 15, 5),
               child: IconButton(
                 onPressed: () async {
                   //TODO navigate to profil
@@ -138,9 +140,9 @@ class TacheListView extends StatelessWidget{
               width: 350,
               child: _tachesListView(data));
         } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
+          return Center(child: Text("${snapshot.error}"));
         }
-        return  const CircularProgressIndicator();
+        return  const Center(child: CircularProgressIndicator());
       },
     );
   }
@@ -179,7 +181,7 @@ class TacheListView extends StatelessWidget{
 
   Future<List<Tache>> _fetchTaches(BuildContext context) async {
 
-    var url = Uri.http("autotek-server.herokuapp.com","/authentification_mobile/am_connexion/${UserCredentials.email}");
+    var url = Uri.http("autotek-server.herokuapp.com","/tache/get_tache_byidam/${UserCredentials.uid}");
     print (url.toString());
     final response = await http.get(url, headers: {'token':UserCredentials.token!,'id_sender':UserCredentials.uid!});
 

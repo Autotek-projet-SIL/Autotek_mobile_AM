@@ -1,23 +1,28 @@
+import 'dart:convert';
+import 'package:autotec/components/text_field_password.dart';
 import 'package:autotec/components/w_back.dart';
+import 'package:autotec/profile/profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../components/pop_ups.dart';
 import '../components/w_raised_button.dart';
 import '../components/text_field.dart';
+import 'package:autotec/repositories/image_storage_repository.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import '../models/user_data.dart';
 import 'dart:io';
 
 class EditProfile extends StatefulWidget {
   final String image;
   final String nom;
   final String prenom;
-  final String numTlph;
-  final String mdp;
-
   const EditProfile({Key? key,
-  required this.image,
+    required this.image,
     required this.nom,
     required this.prenom,
-    required this.numTlph,
-    required this.mdp,
 
   }) : super(key: key);
 
@@ -29,6 +34,7 @@ class _EditProfileState extends State<EditProfile> {
   XFile? imageFile;
   String? imageChanged;
   bool loading=true;
+  bool _passwordVisible=false;
   //final Storage storage = Storage();
   final ImagePicker _picker = ImagePicker();
 
@@ -79,6 +85,91 @@ class _EditProfileState extends State<EditProfile> {
   }
 
 
+  void _changePassword(String currentPassword, String newPassword) async {
+    await UserCredentials.refresh();
+    final user = await FirebaseAuth.instance.currentUser;
+    final cred = EmailAuthProvider.credential(
+        email: user!.email.toString(), password: currentPassword);
+
+    user?.reauthenticateWithCredential(cred).then((value) {
+      user.updatePassword(newPassword).then((_) {
+        //Success, do something
+      }).catchError((error) {
+        //Error, show something
+      });
+    }).catchError((err) {
+
+    });}
+
+
+  void updatePassword(String newPassword) async{
+    var res=await http.put(
+      Uri.parse('http://autotek-server.herokuapp.com/gestionprofils/modifier_am/modifier_mot_de_passe/${UserCredentials.uid}'),
+      body: {
+        "token": "${UserCredentials.token}",
+        "id_sender": "${UserCredentials.uid}",
+        "mot_de_passe": newPassword
+
+      },
+    );
+
+    print(res.statusCode);
+    if(res.statusCode==200){
+      print("Password is updated successfully");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Password is updated successfully"),
+        duration: Duration(milliseconds: 1200),
+      ));
+    }
+    else{
+      print('errorrrrr');
+    }
+
+
+  }
+
+  void updateImage(String newImage) async{
+    var res=await http.put(
+      Uri.parse('http://autotek-server.herokuapp.com/gestionprofils/modifier_am/modifier_photo/${UserCredentials.uid}'),
+      body: {
+        "token": "${UserCredentials.token}",
+        "id_sender": "${UserCredentials.uid}",
+        "photo_am": newImage
+
+      },
+    );
+
+    print(res.statusCode);
+    if(res.statusCode==200){
+      print("Image is updated successfully");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Image is updated successfully"),
+        duration: Duration(milliseconds: 1200),
+      ));
+
+    }
+    else{
+      print('errorrrrr');
+    }
+
+
+  }
+
+void updateUser(String newImage, String  currentPassword,String newPassword){
+  setState(() {
+    loading=false;
+  });
+    updateImage(newImage);
+    _changePassword(currentPassword, newPassword);
+    updatePassword(newPassword);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>
+          Profile()
+      ),
+    );
+}
+
 
   Widget profileContainer(String text){
     Size size = MediaQuery.of(context).size;
@@ -89,7 +180,7 @@ class _EditProfileState extends State<EditProfile> {
       width: size.width*0.4,
       decoration: BoxDecoration(
         border: Border.all(
-          color:const Color(0xff2E9FB0),
+          color:Color(0xff2E9FB0),
         ),
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -98,7 +189,7 @@ class _EditProfileState extends State<EditProfile> {
         child: Row(
           children: [
             Text(text,textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+              style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
             ),
           ],
         ),
@@ -110,7 +201,7 @@ class _EditProfileState extends State<EditProfile> {
     return Row (
       children: [
         SizedBox(width: size.width*0.05,),
-        Text(text,style: TextStyle(color: const Color(0xff696969).withOpacity(0.7),)),
+        Text(text,style: TextStyle(color: Color(0xff696969).withOpacity(0.7),)),
       ],
     );
   }
@@ -119,21 +210,20 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nomController=TextEditingController(text: widget.nom);
-    TextEditingController prenomController=TextEditingController(text: widget.prenom);
-    TextEditingController numController=TextEditingController(text: widget.numTlph);
+    TextEditingController currentPasswordController=TextEditingController(text: '');
+    TextEditingController newPasswordController=TextEditingController(text: '');
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-            padding: const EdgeInsets.all(35.0),
+            padding: EdgeInsets.all(35.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
+                  children: [
                     WidgetArrowBack()
                   ],
                 ),
@@ -147,49 +237,52 @@ class _EditProfileState extends State<EditProfile> {
                 //SizedBox(height: size.height*0.0001,),
                 CircleAvatar(
                     radius: 85,
-                    backgroundColor: const Color(0xff2E9FB0),
+                    backgroundColor: Color(0xff2E9FB0),
                     child: CircleAvatar(
                       backgroundColor:Colors.transparent ,
                       radius: 80,
                       backgroundImage:
-                     imageChanged==null? NetworkImage(widget.image) :Image.file(File(imageFile!.path)).image,
+                      imageChanged==null? NetworkImage(widget.image) :Image.file(File(imageFile!.path)).image,
 
                       child: IconButton(
-                        icon:const Icon(Icons.edit),
+                        icon:Icon(Icons.edit),
                         iconSize: 40,
                         onPressed: () { _showChoiceDialog(context); },),
                     )
                 ),
 
                 SizedBox(height: size.height*0.02,),
-                labelContainer("Nom :"),
-                CustomTextField(controler: nomController,),
+                labelContainer("Current password :"),
+                TextFieldPassword(controller: currentPasswordController, visibleMdp: !_passwordVisible,),
                 SizedBox(height: size.height*0.015,),
-                labelContainer("Prénom :"),
-                CustomTextField(controler: prenomController,),
+                labelContainer("New password :"),
+                TextFieldPassword(controller: newPasswordController, visibleMdp: !_passwordVisible,),
                 SizedBox(height: size.height*0.015,),
-                labelContainer("Numero de téléphone :"),
-                CustomTextField(
-                  onChanged: (value){
-                    numController.text=value;
-                  },
-                  hintText: " Numero de telephone ",
-                  controler: numController,
-                  validationMode:
-                  AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    return value != null
-                        ? 'Enter a  valid number'
-                        : null;
-                  },
-                ),
+
                 SizedBox(height: size.height*0.03,),
                 WidgetRaisedButton(press: () async {
+                  //print(widget.image);
+                  // print(widget.mdp);
+                  // print(numController.text);
+                  if(loading){
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return EnCours(text: "Traitement",);
+                        });
+                  }
+                  FirebaseStorage.instance.refFromURL(widget.image).delete();
+                  // print ("token : ${userCredentials.token}");
+                  // print("id : ${userCredentials.uid}");
+                  var img_url = await Storage.uploadFile(imageFile!.path, "Selfies/"+widget.nom!+" "+widget.prenom!);
+                  imageChanged = img_url ;
+                  print(img_url);
+                  updateUser(img_url,currentPasswordController.text,newPasswordController.text);
 
-                }, text: 'Modifier',color: const Color(0xff2E9FB0),textColor: Colors.white,),
+                }, text: 'Modifier',color: Color(0xff2E9FB0),textColor: Colors.white,),
 
 
-               /* RaisedButton(
+                /* RaisedButton(
                   child: Text('click me'),
                   onPressed: () async {
                     FirebaseStorage.instance.refFromURL(widget.image).delete();

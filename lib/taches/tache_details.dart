@@ -4,9 +4,12 @@
 import 'package:autotec/taches/tache.dart';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../components/w_Back.dart';
 import '../components/w_raised_button.dart';
+import 'package:http/http.dart' as http;
+import 'package:autotec/models/user_data.dart';
 
 class TacheDetails extends StatefulWidget {
   final Tache tache;
@@ -20,22 +23,115 @@ class TacheDetails extends StatefulWidget {
 }
 
 class _TacheDetailsState extends State<TacheDetails> {
-  double _currentSliderValue = 30.0;
-  late bool enPanne;
-  bool _status(){
+
+   bool termine =false;
+   bool enCours=false;
+
+ void _status(){
     if(widget.tache.etat=="en cours"){
       setState(() {
-        enPanne=false;
+        enCours=true;
+        termine=false;
       });
-      return true;
     }
     else{
       setState(() {
-        enPanne=true;
+        enCours=false;
+        termine=true;
       });
-      return false;
+
     }
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _status();
+  }
+  void UpdateAvancement(double avancement) async{
+    var res=await http.put(
+      Uri.parse('http://autotek-server.herokuapp.com/tache/modifier_etatavancement_tache/${widget.tache.idTache}'),
+      body: {
+        "token": "${UserCredentials.token}",
+        "id_sender": "${UserCredentials.uid}",
+        "etat_avancement": "$avancement"
+
+      },
+    );
+
+    print(res.statusCode);
+    if(res.statusCode==200){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("etat d'avancement updated successfully"),
+        duration: Duration(milliseconds: 1200),
+      ));
+      print("etat d'avancement updated");
+    }
+    else{
+      print('errorrrrr');
+    }
+
+
+  }
+  void Update_to_EnCours() async{
+    var res=await http.put(
+      Uri.parse('http://autotek-server.herokuapp.com/tache/modifier_etat_tache/${widget.tache.idTache}'),
+      body: {
+        "token": "${UserCredentials.token}",
+        "id_sender": "${UserCredentials.uid}",
+        "etat": "En cours"
+
+      },
+    );
+
+    print(res.statusCode);
+    if(res.statusCode==200){
+      setState(() {
+        enCours=true;
+        termine=false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("etat switched to 'En cours' successfully"),
+        duration: Duration(milliseconds: 1200),
+      ));
+      print("etat updated to en cours");
+    }
+    else{
+      print('errorrrrr');
+    }
+
+
+  }
+  void Update_to_Termine() async{
+    var res=await http.put(
+      Uri.parse('http://autotek-server.herokuapp.com/tache/modifier_etat_tache/${widget.tache.idTache}'),
+      body: {
+        "token": "${UserCredentials.token}",
+        "id_sender": "${UserCredentials.uid}",
+        "etat": "Terminée"
+
+      },
+    );
+
+    print(res.statusCode);
+    if(res.statusCode==200){
+      print("etat updated to terminée");
+      setState(() {
+        termine=true;
+        enCours=false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("etat switched to 'Terminée' successfully"),
+        duration: Duration(milliseconds: 1200),
+      ));
+    }
+    else{
+      print('errorrrrr');
+    }
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,12 +153,20 @@ class _TacheDetailsState extends State<TacheDetails> {
               const SizedBox(
                 height: 15,
               ),
-              Text(widget.tache.objet,
+              Text("${widget.tache.objet} (${widget.tache.idTache})" ,
                 style: const TextStyle(
                 fontWeight: FontWeight.w800,
                 color:  Colors.black,
                 fontSize: 24  ,
               ),),
+              const SizedBox(
+                height: 13,
+              ),
+              Text("${widget.tache.typeTache}" ,
+                style: const TextStyle(
+                  color:  Colors.black,
+                  fontSize: 20  ,
+                ),),
               const SizedBox(
                 height: 13,
               ),
@@ -86,16 +190,21 @@ class _TacheDetailsState extends State<TacheDetails> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                 _status()? RaisedButton(
-                    color: Colors.black,
+                 enCours? RaisedButton(
+                    color: Colors.white,
                     hoverColor: Colors.black,
                     shape:RoundedRectangleBorder(
+                      side: BorderSide(
+                          color:  Color(0xff2E9FB0),
+                          width: 3,
+                          style: BorderStyle.solid
+                      ),
                         borderRadius: BorderRadius.circular(10)),
                     padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
 
                     child: const Text(
                       "En cours",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontSize: 19),
                     ),
                     onPressed: (){},
                   ):RaisedButton(
@@ -109,32 +218,41 @@ class _TacheDetailsState extends State<TacheDetails> {
           "En cours",
           style: TextStyle(color: Colors.white, fontSize: 16),
         ),
-        onPressed: (){},
+        onPressed: (){
+              Update_to_EnCours();
+        },
       ),
-                 _status()? RaisedButton(
-                    color: const Color(0xff2E9FB0),
-                    hoverColor: Colors.black,
-                    shape:RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                 termine? RaisedButton(
+                    color: Colors.white,
+                   hoverColor: Colors.black,
+                   shape:RoundedRectangleBorder(
+                       side: BorderSide(
+                           color:  Color(0xff2E9FB0),
+                           width: 3,
+                           style: BorderStyle.solid
+                       ),
+                       borderRadius: BorderRadius.circular(10)),
+                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
 
-                    child: const Text(
-                      "En panne",
-                      style:  TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    onPressed: (){},
+                   child: const Text(
+                     "Terminée",
+                     style:  TextStyle(color: Colors.black,fontWeight: FontWeight.bold, fontSize: 19),
+                   ),
+                   onPressed: (){},
                   ):RaisedButton(
-                   color: Colors.black,
+                   color: const Color(0xff2E9FB0),
                    hoverColor: Colors.black,
                    shape:RoundedRectangleBorder(
                        borderRadius: BorderRadius.circular(10)),
                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
 
                    child: const Text(
-                     "En panne",
+                     "Terminée",
                      style:  TextStyle(color: Colors.white, fontSize: 16),
                    ),
-                   onPressed: (){},
+                   onPressed: (){
+                     Update_to_Termine();
+                   },
                  ),
 
                 ],
@@ -142,7 +260,7 @@ class _TacheDetailsState extends State<TacheDetails> {
               const SizedBox(
                 height: 35,
               ),
-              const Text("Avancement",
+              Text("Avancement (${widget.tache.etatAvancement} %)",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color:  Colors.black,
@@ -171,13 +289,14 @@ class _TacheDetailsState extends State<TacheDetails> {
                   min: 0,
                   max: 100,
                   divisions: 100,
-                  value: _currentSliderValue,
-                  label: _currentSliderValue.toString(),
+                  value: widget.tache.etatAvancement.toDouble() ,
+                  label: widget.tache.etatAvancement.toString(),
                   onChanged: (value) {
                     setState(() {
-                      _currentSliderValue = value;
+                      widget.tache.etatAvancement = value.toInt();
                     });
                   },
+
                 ),
               ),
               const SizedBox(
@@ -202,7 +321,10 @@ class _TacheDetailsState extends State<TacheDetails> {
                 height: 35,
               ),
               WidgetRaisedButton(text: "Notifier l'ATC",
-                  press: (){print(_currentSliderValue);},
+                  press: (){
+                UpdateAvancement(widget.tache.etatAvancement.toDouble());
+
+                },
                   color: const Color(0xff2E9FB0), textColor: Colors.white)
 
             ]

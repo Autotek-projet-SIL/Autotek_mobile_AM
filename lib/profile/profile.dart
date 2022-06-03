@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:autotec/Authentication/SignIn/sign_in.dart';
 import 'package:autotec/components/w_back.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -99,7 +100,7 @@ class _ProfileState extends State<Profile> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
+              padding: const EdgeInsets.fromLTRB(40.0, 5, 15, 5),
               child: IconButton(
                 onPressed: ()async{
                   await UserCredentials.refresh();
@@ -113,7 +114,7 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
+              padding: const EdgeInsets.fromLTRB(40.0, 5, 15, 5),
               child: IconButton(
                 onPressed: ()async{
                   await UserCredentials.refresh();
@@ -127,7 +128,7 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(50.0, 5, 50, 5),
+              padding: const EdgeInsets.fromLTRB(40.0, 5, 15, 5),
               child: IconButton(
                 onPressed: () async {
                   //TODO navigate to profil
@@ -187,7 +188,7 @@ class _ProfileState extends State<Profile> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) =>
-                          EditProfile(image: image, nom: name, prenom: prenom, numTlph: numero, mdp: mdp)
+                          EditProfile(image: image, nom: name, prenom: prenom)
                       ),
                     );
                   }, icon: const Icon(Icons.edit ,size: 30,), hoverColor: const Color(0xff2E9FB0),),
@@ -230,6 +231,11 @@ class _ProfileState extends State<Profile> {
               GestureDetector(
                 onTap: () async {
                   context.read<AuthBloc>().add(SignOutRequested());
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignIn()),
+                        );
+
                   //await FirebaseAuth.instance.signOut();
                   //await FirebaseAuth.instance.signOut().then((value) => Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => CarsList()),(route) => false));
      },
@@ -262,7 +268,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-            /*  RaisedButton(
+              RaisedButton(
                 child: Text('click me'),
                 onPressed: (){
                   print ("token : ${UserCredentials.token}");
@@ -271,7 +277,7 @@ class _ProfileState extends State<Profile> {
                  // print("id : ${UserCredentials.uid}");
 
                 },
-              )*/
+              )
 
             ],
           )

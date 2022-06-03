@@ -6,13 +6,15 @@ class TextFieldPassword extends StatelessWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final AutovalidateMode? validationMode;
-  const TextFieldPassword({
+    bool visibleMdp;
+   TextFieldPassword({
     Key? key,
     this.controller,
     this.hintText,
     this.onChanged,
     this.validator,
     this.validationMode,
+    required this.visibleMdp
   }) : super(key: key);
 
   @override
@@ -21,14 +23,17 @@ class TextFieldPassword extends StatelessWidget {
       controller: controller,
       autovalidateMode: validationMode,
       validator: validator,
-      obscureText: true,
+      obscureText: visibleMdp,
       onChanged: (value) {},
       cursorColor:const Color.fromRGBO(27, 146, 164, 1),
       decoration: InputDecoration(
         hintText: hintText,
-        suffixIcon: const Icon(
-          Icons.visibility,
+        suffixIcon: IconButton(
+          icon: Icon(Icons.visibility),
           color: Colors.black,
+          onPressed: () {
+            visibleMdp=!visibleMdp;
+          },
         ),
         contentPadding: const EdgeInsets.all(14.0),
         border: OutlineInputBorder(

@@ -27,31 +27,33 @@ class _CarsListState extends State<CarsList> {
 
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Row(
-                children: const [
-                  SizedBox(width: 20,),
-                  Text(
-                    'Mes Vehicules',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      color:  Color(0xff2E9FB0),
-                      fontSize: 24  ,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Row(
+                  children: const [
+                    SizedBox(width: 20,),
+                    Text(
+                      'Mes Vehicules',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        color:  Color(0xff2E9FB0),
+                        fontSize: 24  ,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
 
 
-            const Center(
-                  child: CarListView(),
-            ),
+              const Center(
+                    child: CarListView(),
+              ),
 
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -63,7 +65,7 @@ class _CarsListState extends State<CarsList> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
+              padding: const EdgeInsets.fromLTRB(40.0, 5, 15, 5),
               child: IconButton(
                 onPressed: ()async{
                   await UserCredentials.refresh();
@@ -77,7 +79,7 @@ class _CarsListState extends State<CarsList> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(50.0, 5, 20, 5),
+              padding: const EdgeInsets.fromLTRB(40.0, 5, 15, 5),
               child: IconButton(
                 onPressed: ()async{
                   await UserCredentials.refresh();
@@ -91,7 +93,7 @@ class _CarsListState extends State<CarsList> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(50.0, 5, 50, 5),
+              padding: const EdgeInsets.fromLTRB(40.0, 5, 15, 5),
               child: IconButton(
                 onPressed: () async {
                   //TODO navigate to profil
