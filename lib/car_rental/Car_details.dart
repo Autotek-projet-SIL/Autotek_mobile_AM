@@ -1,8 +1,10 @@
 // ignore_for_file: avoid_print
 
+import 'package:autotec/car_rental/map.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 
 import '../components/w_back.dart';
 import '../components/w_carInfo.dart';
@@ -11,7 +13,14 @@ import 'cars.dart';
 
 class CarDetail extends StatefulWidget {
   final Car car ;
-  const CarDetail( {Key? key, required this.car, }) : super(key: key);
+  final carLocation;
+  bool circular ;
+  final String carPlace;
+   CarDetail( {Key? key,
+    required this.car,
+    required this.carLocation,
+    required this.circular,
+    required this.carPlace}) : super(key: key);
 
   @override
   State<CarDetail> createState() => _CarDetailState();
@@ -19,30 +28,16 @@ class CarDetail extends StatefulWidget {
 
 class _CarDetailState extends State<CarDetail> {
 
-  var _carLocation;
-  bool circular =true;
-  @override
-  void initState(){
-    super.initState();
-    getCarFromFirestore();
-  }
-  void getCarFromFirestore() async{
-    try{
-      DocumentSnapshot variable=await FirebaseFirestore.instance.collection('CarLocation').doc(widget.car.numeroChassis).get();
 
-      setState(() {
-        _carLocation=variable;
-        circular=false;
-      });
-    }catch(e){
-      print(e.toString());
+ void carAdress() async{
 
-    }
+
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -65,9 +60,9 @@ class _CarDetailState extends State<CarDetail> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  circular?const CircularProgressIndicator(): WidgetCarSpecifications(titre: "${_carLocation['batterie']}%",image: "assets/battery.png",),
-                  circular?const CircularProgressIndicator():  WidgetCarSpecifications(titre: "${_carLocation['temperature']}°",image: "assets/temp.png",),
-                  circular?const CircularProgressIndicator(): WidgetCarSpecifications(titre: "${_carLocation['kilometrage']}km/h",image: "assets/speed.png",),
+                  widget.circular?const CircularProgressIndicator(): WidgetCarSpecifications(titre: "${widget.carLocation['batterie']}%",image: "assets/battery.png",),
+                  widget.circular?const CircularProgressIndicator():  WidgetCarSpecifications(titre: "${widget.carLocation['temperature']}°",image: "assets/temp.png",),
+                 widget.circular?const CircularProgressIndicator(): WidgetCarSpecifications(titre: "${widget.carLocation['kilometrage']}km/h",image: "assets/speed.png",),
                 ],
               ),
               SizedBox(height: size.height*0.03,),
@@ -106,18 +101,38 @@ class _CarDetailState extends State<CarDetail> {
                         Text("Oued Smar, Alger ,Algerie",style: TextStyle(fontSize: 16),),
                       ],
                     ),*/
+                    SizedBox(height: size.height*0.01,),
+                    const Text("Numero de chassis : ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    SizedBox(height: size.height*0.02,),
+                  Text("${widget.car.numeroChassis}",style: TextStyle(fontSize: 20),),
                     SizedBox(height: size.height*0.03,),
                     const Text("Localisation : ",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                     SizedBox(height: size.height*0.02,),
-                    Row(
-                      children: const [
-                        Icon(Icons.location_on,color: Color(0xff2E9FB0),),
-                        SizedBox(width: 10,),
-                        Text("??????",style: TextStyle(fontSize: 20),),
-                      ],
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => CarMap(widget.car.numeroChassis)),
+                        );
+                      },
+                      child: Row(
+                        children:  [
+                          Icon(Icons.location_on,color: Color(0xff2E9FB0),),
+                          SizedBox(width: 10,),
+                          Center(
+                            child: SizedBox(
+                                height: 60,
+                                width: size.width*0.8,
+                                child: Text("${widget.carPlace}",style: TextStyle(fontSize: 20),)),
+                          ),
+                        ],
+                      ),
                     ),
 
+
                     SizedBox(height: size.height*0.03,),
+
+
 
 
                   ],

@@ -91,10 +91,11 @@ class _EditProfileState extends State<EditProfile> {
     final cred = EmailAuthProvider.credential(
         email: user!.email.toString(), password: currentPassword);
 
-    user?.reauthenticateWithCredential(cred).then((value) {
+    user.reauthenticateWithCredential(cred).then((value) {
       user.updatePassword(newPassword).then((_) {
-        //Success, do something
+        print('password doneeeeeeeeeeeeeeeeee');//Success, do something
       }).catchError((error) {
+        print('password ma tbdel ma walo');
         //Error, show something
       });
     }).catchError((err) {
@@ -162,12 +163,13 @@ void updateUser(String newImage, String  currentPassword,String newPassword){
     updateImage(newImage);
     _changePassword(currentPassword, newPassword);
     updatePassword(newPassword);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) =>
-          Profile()
-      ),
-    );
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>
+        Profile()
+    ),
+  );
+
 }
 
 
@@ -253,10 +255,10 @@ void updateUser(String newImage, String  currentPassword,String newPassword){
 
                 SizedBox(height: size.height*0.02,),
                 labelContainer("Current password :"),
-                TextFieldPassword(controller: currentPasswordController, visibleMdp: !_passwordVisible,),
+                TextFieldPassword(controller: currentPasswordController,),
                 SizedBox(height: size.height*0.015,),
                 labelContainer("New password :"),
-                TextFieldPassword(controller: newPasswordController, visibleMdp: !_passwordVisible,),
+                TextFieldPassword(controller: newPasswordController),
                 SizedBox(height: size.height*0.015,),
 
                 SizedBox(height: size.height*0.03,),
@@ -278,6 +280,7 @@ void updateUser(String newImage, String  currentPassword,String newPassword){
                   imageChanged = img_url ;
                   print(img_url);
                   updateUser(img_url,currentPasswordController.text,newPasswordController.text);
+
 
                 }, text: 'Modifier',color: Color(0xff2E9FB0),textColor: Colors.white,),
 

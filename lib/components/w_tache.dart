@@ -45,60 +45,63 @@ class WidgetTache extends StatelessWidget {
               ],
               color: Colors.white,
             ),
-            child: Stack(
-                children:  [
-                  const Positioned(
-                      top: 10,
-                      bottom: 10,
-                      left: 20.0,
-                      child: Icon(Icons.warning_amber_rounded,color: Color(0xff2E9FB0),size: 50,)
-                    //Image.asset("assets/vector.png"),
-                  ),
-                  Positioned(
-                    top:22.0,
-                    left: 100,
-                    child:
-                    Column(
-                      children: [
-                        Text(tache.objet,
-                          maxLines: 2,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                          ),),
-
-                        Text("${tache.dateDebut.day}-${tache.dateDebut.month}-${tache.dateDebut.year}",
-                          maxLines: 2,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),),
-                      ],
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Stack(
+                  children:  [
+                    const Positioned(
+                        top: 10,
+                        bottom: 10,
+                        left: 20.0,
+                        child: Icon(Icons.warning_amber_rounded,color: Color(0xff2E9FB0),size: 50,)
+                      //Image.asset("assets/vector.png"),
                     ),
-                  ),
-                  Positioned(
-                    bottom:10.0,
-                    right: 10.0,
-                    child:Column(
-                      children:  [
-                        Text(tache.etat,
-                          maxLines: 2,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),),
+                    Positioned(
+                      top:18.0,
+                      left: 80,
+                      child:
+                      Column(
+                        children: [
+                          Text(tache.objet,
+                            maxLines: 2,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            ),),
 
-                      ],
-                    ) ,
-                  ),
+                          Text("${tache.dateDebut.day}-${tache.dateDebut.month}-${tache.dateDebut.year}",
+                            maxLines: 2,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      bottom:10.0,
+                      right: 10.0,
+                      child:Column(
+                        children:  [
+                          Text(tache.etat,
+                            maxLines: 2,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),),
 
-                ]
+                        ],
+                      ) ,
+                    ),
+
+                  ]
+              ),
             ),
           ),
         ),

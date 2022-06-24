@@ -21,26 +21,20 @@ var userCred ;
 var initScreen;
 
 FirebaseMessaging messaging = FirebaseMessaging.instance;
-
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
+  // make sure you call initializeApp before using other Firebase services.
   await Firebase.initializeApp();
 
   print("Handling a background message: ${message.messageId}");
 }
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  initScreen = prefs.getInt("initScreen");
+  initScreen = await prefs.getInt("initScreen");
   await prefs.setInt("initScreen", 1);
-
-  userCred = UserCredentials();
   await Firebase.initializeApp();
-
   //Get permission for notifications
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
@@ -52,13 +46,24 @@ Future<void> main() async {
     sound: true,
   );
   print('User granted permission: ${settings.authorizationStatus}');
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   //Get Device token
+  String token = (await FirebaseMessaging.instance.getToken())!;
+  print('Tokenn: $token');
+  //Listening to notifications
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print("==================================================================");
+    print('                        La notification');
+    print("==================================================================");
+    print('Message data: ${message.notification?.title}');
+    print('Message data: ${message.notification?.body}');
+    print("==================================================================");
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification}');
+    }
+  });
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   UserCredentials.setDeviceToken();
-
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {

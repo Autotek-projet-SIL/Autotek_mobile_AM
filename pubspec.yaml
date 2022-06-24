@@ -46,6 +46,7 @@ dependencies:
   path: ^1.8.0
   fluttertoast: ^8.0.9
 
+
   percent_indicator: ^3.4.0
   flutter_spinkit: ^5.1.0
   geolocator: ^8.2.0

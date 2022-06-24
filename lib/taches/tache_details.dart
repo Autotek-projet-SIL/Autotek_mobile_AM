@@ -153,7 +153,7 @@ class _TacheDetailsState extends State<TacheDetails> {
               const SizedBox(
                 height: 15,
               ),
-              Text("${widget.tache.objet} (${widget.tache.idTache})" ,
+              Text("${widget.tache.objet}" ,
                 style: const TextStyle(
                 fontWeight: FontWeight.w800,
                 color:  Colors.black,
@@ -170,11 +170,31 @@ class _TacheDetailsState extends State<TacheDetails> {
               const SizedBox(
                 height: 13,
               ),
-              Text("${widget.tache.dateDebut.day}-${widget.tache.dateDebut.month}-${widget.tache.dateDebut.year}",
-                style: const TextStyle(
-                  color:  Colors.grey,
-                  fontSize: 20  ,
-                ),),
+              Row(
+                children: [
+                  Text("Date debut tache :"),
+                  SizedBox(width: 8,),
+                  Text("${widget.tache.dateDebut.day}-${widget.tache.dateDebut.month}-${widget.tache.dateDebut.year}",
+                    style: const TextStyle(
+                      color:  Colors.grey,
+                      fontSize: 20  ,
+                    ),),
+                ],
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              Row(
+                children: [
+                  Text("Date fin tache :"),
+                  SizedBox(width: 8,),
+                  Text("${widget.tache.dateFin.day}-${widget.tache.dateFin.month}-${widget.tache.dateFin.year}",
+                    style: const TextStyle(
+                      color:  Colors.grey,
+                      fontSize: 20  ,
+                    ),),
+                ],
+              ),
               const SizedBox(
                 height: 35,
               ),

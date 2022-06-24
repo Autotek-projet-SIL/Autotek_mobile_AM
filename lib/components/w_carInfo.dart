@@ -67,9 +67,9 @@ class WidgetCarInfo extends StatelessWidget {
         ),
         Positioned(
           top: size.height*0.09,
-          right: 10,
+          right: 8,
           child: Container(
-            child: Image.network(carImage,width: size.width*0.9,),
+            child: Image.network(carImage,width: 350),
           ),
         ),
 

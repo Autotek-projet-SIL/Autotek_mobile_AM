@@ -1,20 +1,60 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:autotec/models/location.dart';
+import 'package:autotec/car_rental/Car_details.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:autotec/models/user_data.dart';
-import '../car_rental/car_details.dart';
+import 'package:flutter_geocoder/geocoder.dart';
+import '../car_rental/Car_details.dart';
 import '../car_rental/cars.dart';
 
 
-class WidgetViewCar extends StatelessWidget {
+class WidgetViewCar extends StatefulWidget {
   final Car car;
-
   const WidgetViewCar({
     Key? key,
-    required this.car
+    required this.car,
   }) : super(key: key);
 
+  @override
+  State<WidgetViewCar> createState() => _WidgetViewCarState();
+}
+
+class _WidgetViewCarState extends State<WidgetViewCar> {
+  var _carLocation;
+  bool circular =true;
+  bool carCircular=true;
+  @override
+  void initState(){
+    super.initState();
+    getCarFromFirestore();
+  }
+  void getCarFromFirestore() async{
+    try{
+      DocumentSnapshot variable=await FirebaseFirestore.instance.collection('CarLocation').doc(widget.car.numeroChassis).get();
+
+      setState(() {
+        _carLocation=variable;
+        circular=false;
+      });
+
+    }catch(e){
+      print(e.toString());
+
+    }
+  }
+
+  Future<String> _getAdress(double latitude, double longitude)async{
+    final coordinates = Coordinates(latitude, longitude);
+    var addresses = await Geocoder.google ('AIzaSyCNdS-eHQeAsWyQ6xIEwROKmkgaA7zm6a4').findAddressesFromCoordinates(
+        coordinates);
+    var first = addresses.first;
+    print('1. ${first.locality}, 2. ${first.adminArea}, 3. ${first.subLocality}, '
+        '4. ${first.subAdminArea}, 5. ${first.addressLine}, 6. ${first.featureName},'
+        '7, ${first.thoroughfare}, 8. ${first.subThoroughfare}');
+
+    return first.addressLine!;
+  }
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -22,8 +62,7 @@ class WidgetViewCar extends StatelessWidget {
         GestureDetector(
           onTap: ()async{
             await UserCredentials.refresh();
-            CarLocation _location = CarLocation();
-            _location.car = car;
+
           },
           child: Container(
             margin: const EdgeInsets.only(top:10.0, left: 10.0, right: 10.0),
@@ -51,7 +90,7 @@ class WidgetViewCar extends StatelessWidget {
                 Positioned(
                   top:10.0,
                   left: 10.0,
-                  child: Image.network(car.imageVehicule,width: 120),
+                  child: Image.network(widget.car.imageVehicule,width: 120),
                 ),
                 Positioned(
                   top:10.0,
@@ -60,7 +99,7 @@ class WidgetViewCar extends StatelessWidget {
                       Container(
                         height: 50,
                         width: 150,
-                        child: Text(car.modele,
+                        child: Text(widget.car.modele,
                           maxLines: 2,
                           style: const TextStyle(
                             color: Colors.black,
@@ -73,7 +112,7 @@ class WidgetViewCar extends StatelessWidget {
                 Positioned(
                   bottom: 10,
                   left: 50,
-                  child: Text(car.tarification.toString()+" DA",
+                  child: Text(widget.car.tarification.toString()+" DA",
                   style: const TextStyle(
                     color: Colors.blueGrey,
                     fontSize: 13,
@@ -87,9 +126,11 @@ class WidgetViewCar extends StatelessWidget {
                       FlatButton(
                           onPressed :()async{
                             await UserCredentials.refresh();
+                            String depart_adr= await _getAdress(_carLocation['latitude'], _carLocation['longitude']);
+                            
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => CarDetail(car: car)),
+                              MaterialPageRoute(builder: (context) => CarDetail(car: widget.car, carLocation: _carLocation, carPlace: depart_adr, circular: circular,)),
                             );
                           } ,
                           color: const Color(0xff2E9FB0),

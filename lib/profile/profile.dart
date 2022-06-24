@@ -268,7 +268,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              RaisedButton(
+             /* RaisedButton(
                 child: Text('click me'),
                 onPressed: (){
                   print ("token : ${UserCredentials.token}");
@@ -277,7 +277,7 @@ class _ProfileState extends State<Profile> {
                  // print("id : ${UserCredentials.uid}");
 
                 },
-              )
+              )*/
 
             ],
           )

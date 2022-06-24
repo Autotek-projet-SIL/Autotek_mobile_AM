@@ -67,7 +67,7 @@ class AuthRepository {
   Future<void> saveTokenDevice() async {
     await UserCredentials.setDeviceToken();
     await FirebaseFirestore.instance.collection('DeviceToken').doc(UserCredentials.uid).set({
-      'device_token': UserCredentials.token,
+      'device_token': UserCredentials.devicetoken,
     }) .then((value) => print("token added"))
         .catchError((error) => print("Failed to add token: $error"));
   }

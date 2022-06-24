@@ -107,7 +107,7 @@ class _SignInState extends State<SignIn> {
                                     return value != null && value.length < 6
                                         ? "Enter min. 6 characters"
                                         : null;
-                                  }, visibleMdp: false,
+                                  },
                                 ),
                                 const SizedBox(
                                   height: 12,
