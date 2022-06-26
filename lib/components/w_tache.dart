@@ -8,9 +8,11 @@ import '../taches/tache_details.dart';
 class WidgetTache extends StatelessWidget {
 
   final Tache tache;
+  final Color colorTache;
   const WidgetTache({
     Key? key,
     required this.tache,
+    required this.colorTache
   }) : super(key: key);
 
   @override
@@ -26,8 +28,8 @@ class WidgetTache extends StatelessWidget {
           },
           child: Container(
             margin: const EdgeInsets.only(top:10.0, left: 10.0, right: 10.0),
-            height: 90,
-            decoration: const BoxDecoration(
+            height: 100,
+            decoration:  BoxDecoration(
 
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
@@ -43,7 +45,7 @@ class WidgetTache extends StatelessWidget {
                   offset: Offset(0,2), // changes position of shadow
                 ),
               ],
-              color: Colors.white,
+              color: colorTache,
             ),
             child: Padding(
               padding: const EdgeInsets.all(2.0),

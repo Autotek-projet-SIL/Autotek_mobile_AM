@@ -19,6 +19,12 @@ class Tache {
     required this.idAm,
     required this.etatAvancement,
     required this.typeTache,
+    required this.idPanne,
+    required this.numeroChassis,
+    required this.marque,
+    required this.modele,
+    required this.couleur,
+    required this.imageVehicule,
   });
 
   int idTache;
@@ -30,6 +36,12 @@ class Tache {
   String idAm;
   int etatAvancement;
   String typeTache;
+  int idPanne;
+  String numeroChassis;
+  String marque;
+  String modele;
+  String couleur;
+  String imageVehicule;
 
   factory Tache.fromJson(Map<String, dynamic> json) => Tache(
     idTache: json["id_tache"],
@@ -41,6 +53,12 @@ class Tache {
     idAm: json["id_am"],
     etatAvancement: json["etat_avancement"],
     typeTache: json["type_tache"],
+    idPanne: json["id_panne"],
+    numeroChassis: json["numero_chassis"],
+    marque: json["marque"],
+    modele: json["modele"],
+    couleur: json["couleur"],
+    imageVehicule: json["image_vehicule"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -53,5 +71,12 @@ class Tache {
     "id_am": idAm,
     "etat_avancement": etatAvancement,
     "type_tache": typeTache,
-  };
+    "id_panne": idPanne,
+    "numero_chassis": numeroChassis,
+    "marque": marque,
+    "modele": modele,
+    "couleur": couleur,
+    "image_vehicule": imageVehicule,
+
+};
 }

@@ -1,11 +1,15 @@
 // ignore_for_file: avoid_print, deprecated_member_use
 
 
+import 'package:autotec/taches/Car_details_tache.dart';
 import 'package:autotec/taches/tache.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../car_rental/Car_details.dart';
 import '../components/w_Back.dart';
 import '../components/w_raised_button.dart';
 import 'package:http/http.dart' as http;
@@ -26,15 +30,49 @@ class _TacheDetailsState extends State<TacheDetails> {
 
    bool termine =false;
    bool enCours=false;
+   var _carLocation;
+   bool circular =true;
+   bool carCircular=true;
+   @override
+   void initState(){
+     super.initState();
+     _status();
+     getCarFromFirestore();
+   }
+   void getCarFromFirestore() async{
+     try{
+       DocumentSnapshot variable=await FirebaseFirestore.instance.collection('CarLocation').doc(widget.tache.numeroChassis).get();
 
+       setState(() {
+         _carLocation=variable;
+         circular=false;
+       });
+
+     }catch(e){
+       print(e.toString());
+
+     }
+   }
+
+   Future<String> _getAdress(double latitude, double longitude)async{
+     final coordinates = Coordinates(latitude, longitude);
+     var addresses = await Geocoder.google ('AIzaSyCNdS-eHQeAsWyQ6xIEwROKmkgaA7zm6a4').findAddressesFromCoordinates(
+         coordinates);
+     var first = addresses.first;
+     print('1. ${first.locality}, 2. ${first.adminArea}, 3. ${first.subLocality}, '
+         '4. ${first.subAdminArea}, 5. ${first.addressLine}, 6. ${first.featureName},'
+         '7, ${first.thoroughfare}, 8. ${first.subThoroughfare}');
+
+     return first.addressLine!;
+   }
  void _status(){
-    if(widget.tache.etat=="en cours"){
+    if(widget.tache.etat=="en cours" || widget.tache.etat=="En cours"){
       setState(() {
         enCours=true;
         termine=false;
       });
     }
-    else{
+   else{
       setState(() {
         enCours=false;
         termine=true;
@@ -42,12 +80,7 @@ class _TacheDetailsState extends State<TacheDetails> {
 
     }
   }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _status();
-  }
+
   void UpdateAvancement(double avancement) async{
     var res=await http.put(
       Uri.parse('http://autotek-server.herokuapp.com/tache/modifier_etatavancement_tache/${widget.tache.idTache}'),
@@ -198,6 +231,35 @@ class _TacheDetailsState extends State<TacheDetails> {
               const SizedBox(
                 height: 35,
               ),
+              const Text("Le vehicule associé",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color:  Colors.black,
+                  fontSize: 22,
+                ),),
+              const SizedBox(
+                height: 12,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  await UserCredentials.refresh();
+                  String depart_adr= await _getAdress(_carLocation['latitude'], _carLocation['longitude']);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CarDetailTache(carLocation: _carLocation, carPlace: depart_adr, circular: circular, numeroChassis: widget.tache.numeroChassis, modele: widget.tache.modele, marque: widget.tache.marque, imageVehicule: widget.tache.imageVehicule, couleur: widget.tache.couleur ,)),
+                  );
+                },
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Text("${widget.tache.marque} ${widget.tache.modele}",
+                    style: const TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color:  Color(0xff2E9FB0)),textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 35,
+              ),
               const Text("Statut",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -322,6 +384,7 @@ class _TacheDetailsState extends State<TacheDetails> {
               const SizedBox(
                 height: 35,
               ),
+
               const Text("Description de la tache",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -340,7 +403,7 @@ class _TacheDetailsState extends State<TacheDetails> {
               const SizedBox(
                 height: 35,
               ),
-              WidgetRaisedButton(text: "Notifier l'ATC",
+              WidgetRaisedButton(text: "Modifier l'état ",
                   press: (){
                 UpdateAvancement(widget.tache.etatAvancement.toDouble());
 

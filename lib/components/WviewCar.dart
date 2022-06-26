@@ -62,6 +62,12 @@ class _WidgetViewCarState extends State<WidgetViewCar> {
         GestureDetector(
           onTap: ()async{
             await UserCredentials.refresh();
+            String depart_adr= await _getAdress(_carLocation['latitude'], _carLocation['longitude']);
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CarDetail(car: widget.car, carLocation: _carLocation, carPlace: depart_adr, circular: circular,)),
+            );
 
           },
           child: Container(

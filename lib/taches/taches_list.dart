@@ -50,7 +50,7 @@ class _TachesListState extends State<TachesList> {
                 ),
               ),
 
-              const Center(
+               Center(
                 child: TacheListView(),
               ),
 
@@ -161,7 +161,7 @@ class TacheListView extends StatelessWidget{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Expanded(child:
-                      Text("aucune voiture n'est disponible en ce moment, veuillez réessayer plus tard")
+                      Text("aucune tache n'est disponible en ce moment, veuillez réessayer plus tard")
                       ),
                       Center(
                         child: FlatButton(
@@ -206,7 +206,13 @@ class TacheListView extends StatelessWidget{
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {
-          return WidgetTache(tache:data[index]);
+              if(data[index].etat=="en cours" || data[index].etat=="En cours" )
+            return WidgetTache(tache:data[index],colorTache:Colors.white );
+             else
+                return WidgetTache(tache:data[index],colorTache:Colors.grey );
+
+
+
         });
   }
 }
