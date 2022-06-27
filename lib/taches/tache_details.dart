@@ -27,7 +27,7 @@ class TacheDetails extends StatefulWidget {
 }
 
 class _TacheDetailsState extends State<TacheDetails> {
-
+  bool isCar=true;
    bool termine =false;
    bool enCours=false;
    var _carLocation;
@@ -37,6 +37,7 @@ class _TacheDetailsState extends State<TacheDetails> {
    void initState(){
      super.initState();
      _status();
+     _car();
      getCarFromFirestore();
    }
    void getCarFromFirestore() async{
@@ -78,6 +79,11 @@ class _TacheDetailsState extends State<TacheDetails> {
         termine=true;
       });
 
+    }
+  }
+  void _car(){
+    if(widget.tache.typeTache=="Tache affectée par un atc"){
+      isCar=false;
     }
   }
 
@@ -240,7 +246,7 @@ class _TacheDetailsState extends State<TacheDetails> {
               const SizedBox(
                 height: 12,
               ),
-              GestureDetector(
+              isCar? GestureDetector(
                 onTap: () async {
                   await UserCredentials.refresh();
                   String depart_adr= await _getAdress(_carLocation['latitude'], _carLocation['longitude']);
@@ -255,6 +261,11 @@ class _TacheDetailsState extends State<TacheDetails> {
                   child: Text("${widget.tache.marque} ${widget.tache.modele}",
                     style: const TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color:  Color(0xff2E9FB0)),textAlign: TextAlign.center,
                   ),
+                ),
+              ):SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Text("Tous les vehicules",
+                  style: const TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color:  Color(0xff2E9FB0)),textAlign: TextAlign.center,
                 ),
               ),
               const SizedBox(

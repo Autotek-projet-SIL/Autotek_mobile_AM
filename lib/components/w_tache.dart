@@ -28,7 +28,7 @@ class WidgetTache extends StatelessWidget {
           },
           child: Container(
             margin: const EdgeInsets.only(top:10.0, left: 10.0, right: 10.0),
-            height: 100,
+            height: 120,
             decoration:  BoxDecoration(
 
               borderRadius: BorderRadius.only(
@@ -64,14 +64,17 @@ class WidgetTache extends StatelessWidget {
                       child:
                       Column(
                         children: [
-                          Text(tache.objet,
-                            maxLines: 2,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                            ),),
+                          SizedBox(
+                            width: 200,
+                            child: Text(tache.objet,
+                              maxLines: 2,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                              ),),
+                          ),
 
                           Text("${tache.dateDebut.day}-${tache.dateDebut.month}-${tache.dateDebut.year}",
                             maxLines: 2,
