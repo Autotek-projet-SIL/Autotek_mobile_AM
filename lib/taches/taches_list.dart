@@ -182,7 +182,6 @@ class TacheListView extends StatelessWidget{
   Future<List<Tache>> _fetchTaches(BuildContext context) async {
 
     var url = Uri.http("autotek-server.herokuapp.com","/tache/get_tache_byidam/${UserCredentials.uid}");
-    print (url.toString());
     final response = await http.get(url, headers: {'token':UserCredentials.token!,'id_sender':UserCredentials.uid!});
 
     if (response.statusCode == 200) {

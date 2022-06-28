@@ -180,7 +180,6 @@ class CarListView extends StatelessWidget{
   Future<List<Car>> _fetchCars(BuildContext context) async {
 
     var url = Uri.http("autotek-server.herokuapp.com","/flotte/vehicule_am/${UserCredentials.uid}");
-    print (url.toString());
     final response = await http.get(url, headers: {'token':UserCredentials.token!,'id_sender':UserCredentials.uid!});
 
     if (response.statusCode == 200) {

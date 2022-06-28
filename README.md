@@ -1,16 +1,11 @@
-# autotec
+# AUTOTEK AGENT DE MAINTENANCE
+Il s'agit d'une application mobile Flutter pour la maintenance des vehicules autonomes dédiée aux agents de maintenance.
 
-A new Flutter project.
+L'application assure les fonctionnalités suivantes :
 
-## Getting Started
+- Authentification.
+- La gestion des profils.
+- Consulter la liste des vehicules avec leurs details ainsi que leurs localisation en temps réel
+- Consulter la liste des taches (en cours et non terminées) avec leurs details
+- Modifier l'etat d'une tache et informer les atc 
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

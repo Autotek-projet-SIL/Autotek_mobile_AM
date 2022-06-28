@@ -195,12 +195,7 @@ class _ProfileState extends State<Profile> {
 
                 ],
               ),
-             /* RaisedButton(onPressed: (){
-                //print(" token : ${UserCredentials.token}");
-                //print(" id : ${UserCredentials.uid}");
-               print("${userProfile[0]}");
-              },
-              child: Text("click me"),)*/
+
               SizedBox(height: size.height*0.01,),
               CircleAvatar(
                   radius: 85,
@@ -268,16 +263,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-            /* RaisedButton(
-                child: Text('click me'),
-                onPressed: (){
-                  print ("token : ${UserCredentials.token}");
-                   print("id : ${UserCredentials.uid}");
-                  //print ("token : ${UserCredentials.token}");
-                 // print("id : ${UserCredentials.uid}");
 
-                },
-              )*/
 
             ],
           )

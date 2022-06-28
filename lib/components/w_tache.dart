@@ -28,7 +28,7 @@ class WidgetTache extends StatelessWidget {
           },
           child: Container(
             margin: const EdgeInsets.only(top:10.0, left: 10.0, right: 10.0),
-            height: 120,
+            height: 130,
             decoration:  BoxDecoration(
 
               borderRadius: BorderRadius.only(

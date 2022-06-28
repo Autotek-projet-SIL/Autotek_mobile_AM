@@ -93,9 +93,9 @@ class _EditProfileState extends State<EditProfile> {
 
     user.reauthenticateWithCredential(cred).then((value) {
       user.updatePassword(newPassword).then((_) {
-        print('password doneeeeeeeeeeeeeeeeee');//Success, do something
+        print('password updated in firebase');//Success, do something
       }).catchError((error) {
-        print('password ma tbdel ma walo');
+        print('ERROR');
         //Error, show something
       });
     }).catchError((err) {
@@ -123,7 +123,7 @@ class _EditProfileState extends State<EditProfile> {
       ));
     }
     else{
-      print('errorrrrr');
+      print('error');
     }
 
 
@@ -150,7 +150,7 @@ class _EditProfileState extends State<EditProfile> {
 
     }
     else{
-      print('errorrrrr');
+      print('error');
     }
 
 
@@ -230,13 +230,7 @@ void updateUser(String newImage, String  currentPassword,String newPassword){
                   ],
                 ),
                 SizedBox(height: size.height*0.02,),
-                /* RaisedButton(onPressed: (){
-                  //print(" token : ${userCredentials.token}");
-                  //print(" id : ${userCredentials.uid}");
-                 print("${userProfile[0]}");
-                },
-                child: Text("click me"),)*/
-                //SizedBox(height: size.height*0.0001,),
+
                 CircleAvatar(
                     radius: 85,
                     backgroundColor: Color(0xff2E9FB0),
@@ -263,9 +257,6 @@ void updateUser(String newImage, String  currentPassword,String newPassword){
 
                 SizedBox(height: size.height*0.03,),
                 WidgetRaisedButton(press: () async {
-                  //print(widget.image);
-                  // print(widget.mdp);
-                  // print(numController.text);
                   if(loading){
                     showDialog(
                         context: context,
@@ -274,8 +265,6 @@ void updateUser(String newImage, String  currentPassword,String newPassword){
                         });
                   }
                   FirebaseStorage.instance.refFromURL(widget.image).delete();
-                  // print ("token : ${userCredentials.token}");
-                  // print("id : ${userCredentials.uid}");
                   var img_url = await Storage.uploadFile(imageFile!.path, "Selfies/"+widget.nom!+" "+widget.prenom!);
                   imageChanged = img_url ;
                   print(img_url);
@@ -285,17 +274,6 @@ void updateUser(String newImage, String  currentPassword,String newPassword){
                 }, text: 'Modifier',color: Color(0xff2E9FB0),textColor: Colors.white,),
 
 
-                /* RaisedButton(
-                  child: Text('click me'),
-                  onPressed: () async {
-                    FirebaseStorage.instance.refFromURL(widget.image).delete();
-                   // print ("token : ${userCredentials.token}");
-                   // print("id : ${userCredentials.uid}");
-                    var img_url = await Storage.uploadFile(imageFile!.path, "Selfies/"+widget.nom!+" "+widget.prenom!);
-                    imageChanged = img_url ;
-                    print(img_url);
-                  },
-                )*/
               ],
             )
         ),
